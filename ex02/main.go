@@ -20,7 +20,7 @@ func (h PresentHeap) Less(i, j int) bool {
 	if h[i].Value == h[j].Value {
 		return h[i].Size < h[j].Size
 	}
-	return h[i].Value < h[j].Value
+	return h[i].Value > h[j].Value
 }
 
 func (h PresentHeap) Swap(i, j int) {
@@ -35,22 +35,32 @@ func (h *PresentHeap) Pop() any {
 	old := *h
 	n := len(old)
 	x := old[n-1]
-	*h = old[0 : n-1]
-	return x
+	*h = old[:n-1]
+	return Present(x)
+}
+
+func getNCoolestPresents(presents []Present, n int) []interface{} {
+	h := PresentHeap(presents)
+	var coolestPresents []interface{}
+
+	heap.Init(&h)
+
+	for h.Len() > n {
+		coolestPresents = append(coolestPresents, heap.Pop(&h))
+	}
+
+	return coolestPresents
 }
 
 func main() {
-	h := &PresentHeap{
-		Present{Size: 5, Value: 1},
-		Present{Size: 4, Value: 5},
-		Present{Size: 3, Value: 1},
-		Present{Size: 5, Value: 2},
+	var n int = 2
+	presents := []Present{
+		Present{Value: 5, Size: 1},
+		Present{Value: 4, Size: 5},
+		Present{Value: 3, Size: 1},
+		Present{Value: 5, Size: 2},
 	}
 
-	heap.Init(h)
-	//heap.Push(h, 3)
-	fmt.Printf("minimum: %d\n", (*h)[0])
-	for h.Len() > 0 {
-		fmt.Printf("%d ", heap.Pop(h))
-	}
+	coolestPresents := getNCoolestPresents(presents, n)
+	fmt.Println(coolestPresents)
 }
