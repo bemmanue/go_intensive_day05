@@ -36,7 +36,7 @@ func (h *PresentHeap) Pop() any {
 	n := len(old)
 	x := old[n-1]
 	*h = old[:n-1]
-	return Present(x)
+	return x
 }
 
 func getNCoolestPresents(presents []Present, n int) []interface{} {
