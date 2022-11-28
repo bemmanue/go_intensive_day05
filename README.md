@@ -207,7 +207,7 @@ one has the smaller size of those two with Value = 5.
 
 
 ## Chapter VII
-### Exercise 02: Knapsack
+### Exercise 03: Knapsack
 
 - Wait! - you said. - But how do I know that all these amazing presents
   won't eat up all the space on my hard drive?
