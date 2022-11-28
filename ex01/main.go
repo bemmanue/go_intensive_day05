@@ -65,15 +65,15 @@ func unrollGarland(root *TreeNode) ([]bool, error) {
 
 	queue = append(queue, *root)
 
-	for {
+	for i := 0; ; i++ {
 		garland = append(garland, getGarland(queue)...)
-		queue = fromLeftToRight(queue)
-		if queue == nil {
-			break
+
+		if i%2 == 0 {
+			queue = fromLeftToRight(queue)
+		} else {
+			queue = fromRightToLeft(queue)
 		}
 
-		garland = append(garland, getGarland(queue)...)
-		queue = fromRightToLeft(queue)
 		if queue == nil {
 			break
 		}
