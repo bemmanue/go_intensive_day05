@@ -2,7 +2,9 @@ package main
 
 import (
 	"container/heap"
+	"errors"
 	"fmt"
+	"log"
 )
 
 type Present struct {
@@ -39,9 +41,13 @@ func (h *PresentHeap) Pop() any {
 	return x
 }
 
-func getNCoolestPresents(presents []Present, n int) []interface{} {
+func getNCoolestPresents(presents []Present, n int) ([]interface{}, error) {
 	h := PresentHeap(presents)
 	var coolestPresents []interface{}
+
+	if n > len(presents) {
+		return nil, errors.New("`n` is larger than the size of the slice or is negative")
+	}
 
 	heap.Init(&h)
 
@@ -49,7 +55,7 @@ func getNCoolestPresents(presents []Present, n int) []interface{} {
 		coolestPresents = append(coolestPresents, heap.Pop(&h))
 	}
 
-	return coolestPresents
+	return coolestPresents, nil
 }
 
 func main() {
@@ -61,6 +67,9 @@ func main() {
 		Present{Value: 5, Size: 2},
 	}
 
-	coolestPresents := getNCoolestPresents(presents, n)
+	coolestPresents, err := getNCoolestPresents(presents, n)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	fmt.Println(coolestPresents)
 }
