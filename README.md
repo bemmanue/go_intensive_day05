@@ -229,7 +229,7 @@ mysterious box on her table.
 
 As a last task, you have to implement a classic dynamic programming algorithm,
 also known as "Knapsack Problem". Input is almost the same, as in the last
-task - you have a slice of Presents, each with Value and Size, but t his
+task - you have a slice of Presents, each with Value and Size, but this
 time you also have a hard drive with a limited capacity. So, you have to
 pick only those presents, that fit into that capacity and maximize the
 resulting value.
