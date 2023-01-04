@@ -12,9 +12,8 @@ type Present struct {
 func max(a, b int) int {
 	if a > b {
 		return a
-	} else {
-		return b
 	}
+	return b
 }
 
 func getValuesAndSizes(presents []Present) ([]int, []int) {
@@ -25,7 +24,6 @@ func getValuesAndSizes(presents []Present) ([]int, []int) {
 		values = append(values, p.Value)
 		sizes = append(sizes, p.Size)
 	}
-
 	return values, sizes
 }
 
@@ -53,18 +51,7 @@ func getMemTable(presents []Present, n int) [][]int {
 	return table
 }
 
-func grabPresents(presents []Present, n int) []Present {
-	var knapsack []Present
-
-	presentsMap := make(map[int]Present)
-	for _, present := range presents {
-		presentsMap[present.Value] = present
-	}
-
-	table := getMemTable(presents, n)
-	tab := table[len(presents)]
-	sum := tab[len(table)-1]
-
+func getValues(tab []int, sum int, presentsMap map[int]Present, knapsack []Present) []Present {
 	for i := len(tab) - 1; i >= 0; i-- {
 		if sum == 0 {
 			break
@@ -82,6 +69,22 @@ func grabPresents(presents []Present, n int) []Present {
 			sum = sum - diff
 		}
 	}
+	return knapsack
+}
+
+func grabPresents(presents []Present, n int) []Present {
+	var knapsack []Present
+
+	presentsMap := make(map[int]Present)
+	for _, present := range presents {
+		presentsMap[present.Value] = present
+	}
+
+	table := getMemTable(presents, n)
+	tab := table[len(presents)]
+	sum := tab[len(table)-1]
+
+	knapsack = getValues(tab, sum, presentsMap, knapsack)
 
 	return knapsack
 }
@@ -89,7 +92,7 @@ func grabPresents(presents []Present, n int) []Present {
 func main() {
 	var n int = 5
 	presents := []Present{
-		Present{Value: 15, Size: 1},
+		Present{Value: 5, Size: 1},
 		Present{Value: 4, Size: 2},
 		Present{Value: 3, Size: 3},
 		Present{Value: 5, Size: 4},
